@@ -114,6 +114,47 @@ namespace sqlite
             Menu.Show();
             
         }
+
+        private void MainHex_MouseClick(object sender, MouseEventArgs e)
+        {
+            int mx = e.X;
+            int my = e.Y;
+            FindHexRow(mx, my); 
+        }
+
+        //updown = 0 = null, 1 = down, 2 = up
+        private void FindHexRow(int Mx, int My)
+        {
+            label1.Text = "this works";
+            bool i = false;
+            int Y = 157;
+            int count = 1;
+            while ( i ==false)
+            {
+                if (Y > My)
+                {
+                    label1.Text = "row = " + count;
+                    //row found
+                    i = true;
+                }
+                else if (count > 10)
+                {
+                    //throw error/do nothing 
+                    label1.Text = "at least click a hex";
+                    i = true;
+                }
+                else
+                {
+                    count++;
+                    Y = Y + 43;
+                }
+            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
