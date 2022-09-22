@@ -12,14 +12,36 @@ namespace sqlite
 {
     public partial class MainHex : Form
     {
+        List<HexModel> Hexs = new List<HexModel>(); 
         public MainHex()
         {
             InitializeComponent();
             CenterToScreen();
             SetStyle(ControlStyles.ResizeRedraw, true);
+            //InitializeHexDb();
         }
         private void MainHex_Load(object sender, EventArgs e)
         {
+
+        }
+        public void InitializeHexDb()
+        {
+            HexModel hex = new HexModel();
+            SqliteDataAccess.DeleteAllHex();
+
+            int i = 1;
+            int a = 1;
+            while (i <= 6)
+            {
+                while (a <= 12)
+                {
+                    hex.Number = a.ToString() + "," + i.ToString();
+                    SqliteDataAccess.MakeHex(hex);
+                    a++;
+                }
+                i++;
+                a = 1;
+            } 
 
         }
         protected override void OnPaint(PaintEventArgs e)
@@ -119,42 +141,83 @@ namespace sqlite
         {
             int mx = e.X;
             int my = e.Y;
-            FindHexRow(mx, my); 
+            FindHexColumn(mx, my); 
         }
-
-        //updown = 0 = null, 1 = down, 2 = up
-        private void FindHexRow(int Mx, int My)
+        private void FindHexColumn(int mx, int my)
         {
-            label1.Text = "this works";
-            bool i = false;
-            int Y = 157;
-            int count = 1;
-            while ( i ==false)
+            int i = 1;
+            int X = 70;
+            while (i <= 12)
             {
-                if (Y > My)
+                if (X < mx && (X + 50) > mx)
                 {
-                    label1.Text = "row = " + count;
-                    //row found
-                    i = true;
+                    // found colum find row
+                    FindHexRow(mx, my, i);
+                    break;
                 }
-                else if (count > 10)
+                else
                 {
-                    //throw error/do nothing 
-                    label1.Text = "at least click a hex";
-                    i = true;
+                    i++;
+                    X = X + 75;
+                }
+            }
+        }
+        
+        private void FindHexRow(int Mx, int My, int Row)
+        {
+            int count = 1;
+            int Y = 70;
+            if (Row % 2 == 0)
+            {
+                Y = Y + 43;
+            }
+            while (count < 6)
+            {
+                if (Y < My && (Y + 86) > My)
+                {
+                    label1.Text = "Row:" + Row + "Column: " + count;
+                    
+                    //fetch and display infomation.
+                    break;
                 }
                 else
                 {
                     count++;
-                    Y = Y + 43;
+                    Y = Y + 86;
                 }
             }
+
+            DisplayHexInfo(Row, count);
+        }
+        private void DisplayHexInfo(int R, int C)
+        {
+            string Column = C.ToString();
+            string Row = R.ToString();
+            Hexs = SqliteDataAccess.loadHex(Column,Row);
+            WireUpNumberList();
+            
+        }
+        private void WireUpNumberList()
+        {
+            HexNum1.DataSource = null;
+            HexNum1.DataSource = Hexs;
+            HexNum1.DisplayMember = "Number";
+
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
 
         }
+
+        //private void button2_Click(object sender, EventArgs e)
+        //{
+        //    HexModel H = new HexModel();
+        //    H.Number = "10,2";
+        //    H.Terrain = "rocks, lots of rocks";
+        //    H.CompanyPresent = "THE MADDER MEN";
+        //    SqliteDataAccess.MakeHex(H);
+        //}
     }
 }
 

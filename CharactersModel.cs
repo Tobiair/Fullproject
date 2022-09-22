@@ -15,4 +15,12 @@ namespace sqlite
 
         public string faction { get; set; }
     }
+    public class HexModel
+    {
+        public string Number { get; set; }
+
+        public string Terrain { get; set; } 
+
+        public string CompanyPresent { get; set; }  
+    }
 }
