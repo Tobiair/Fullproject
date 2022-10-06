@@ -34,6 +34,7 @@
             this.CompaniesPresent = new System.Windows.Forms.Label();
             this.Terrian = new System.Windows.Forms.Label();
             this.HexNum1 = new System.Windows.Forms.ListBox();
+            this.TerrainBox = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // button1
@@ -88,8 +89,17 @@
             this.HexNum1.ItemHeight = 25;
             this.HexNum1.Location = new System.Drawing.Point(1024, 9);
             this.HexNum1.Name = "HexNum1";
-            this.HexNum1.Size = new System.Drawing.Size(180, 129);
+            this.HexNum1.Size = new System.Drawing.Size(180, 29);
             this.HexNum1.TabIndex = 5;
+            // 
+            // TerrainBox
+            // 
+            this.TerrainBox.FormattingEnabled = true;
+            this.TerrainBox.ItemHeight = 25;
+            this.TerrainBox.Location = new System.Drawing.Point(1210, 9);
+            this.TerrainBox.Name = "TerrainBox";
+            this.TerrainBox.Size = new System.Drawing.Size(180, 29);
+            this.TerrainBox.TabIndex = 6;
             // 
             // MainHex
             // 
@@ -97,6 +107,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1478, 744);
+            this.Controls.Add(this.TerrainBox);
             this.Controls.Add(this.HexNum1);
             this.Controls.Add(this.Terrian);
             this.Controls.Add(this.CompaniesPresent);
@@ -121,5 +132,6 @@
         private Label CompaniesPresent;
         private Label Terrian;
         private ListBox HexNum1;
+        private ListBox TerrainBox;
     }
 }

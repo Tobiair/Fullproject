@@ -12,7 +12,7 @@ namespace sqlite
 {
     public partial class MainHex : Form
     {
-        List<HexModel> Hexs = new List<HexModel>(); 
+        List<HexModel> Hexs = new List<HexModel>();
         public MainHex()
         {
             InitializeComponent();
@@ -31,17 +31,18 @@ namespace sqlite
 
             int i = 1;
             int a = 1;
-            while (i <= 6)
+            while (i <= 12)
             {
-                while (a <= 12)
+                while (a <= 5)
                 {
                     hex.Number = a.ToString() + "," + i.ToString();
+                   
                     SqliteDataAccess.MakeHex(hex);
                     a++;
                 }
                 i++;
                 a = 1;
-            } 
+            }
 
         }
         protected override void OnPaint(PaintEventArgs e)
@@ -62,7 +63,7 @@ namespace sqlite
                 drawrow(e, x, y);
                 if (length % 2 == 0)
                 {
-                    x = 70F+75F;
+                    x = 70F + 75F;
                     y = y + 43.3013F;
                 }
                 else
@@ -134,14 +135,14 @@ namespace sqlite
         {
             menu Menu = new menu();
             Menu.Show();
-            
+
         }
 
         private void MainHex_MouseClick(object sender, MouseEventArgs e)
         {
             int mx = e.X;
             int my = e.Y;
-            FindHexColumn(mx, my); 
+            FindHexColumn(mx, my);
         }
         private void FindHexColumn(int mx, int my)
         {
@@ -162,7 +163,7 @@ namespace sqlite
                 }
             }
         }
-        
+
         private void FindHexRow(int Mx, int My, int Row)
         {
             int count = 1;
@@ -176,7 +177,7 @@ namespace sqlite
                 if (Y < My && (Y + 86) > My)
                 {
                     label1.Text = "Row:" + Row + "Column: " + count;
-                    
+
                     //fetch and display infomation.
                     break;
                 }
@@ -188,14 +189,19 @@ namespace sqlite
             }
 
             DisplayHexInfo(Row, count);
+            
         }
         private void DisplayHexInfo(int R, int C)
         {
             string Column = C.ToString();
             string Row = R.ToString();
-            Hexs = SqliteDataAccess.loadHex(Column,Row);
+            Hexs = SqliteDataAccess.loadHex(Column, Row);
+            if (Hexs.CompanyPresent != null) 
+            {
+
+            }
             WireUpNumberList();
-            
+            WireUpTerrainList();
         }
         private void WireUpNumberList()
         {
@@ -203,7 +209,15 @@ namespace sqlite
             HexNum1.DataSource = Hexs;
             HexNum1.DisplayMember = "Number";
 
+
         }
+        private void WireUpTerrainList()
+        {
+            TerrainBox.DataSource = null;
+            TerrainBox.DataSource = Hexs;
+            TerrainBox.DisplayMember = "Terrain";
+        }
+
 
         private void label1_Click(object sender, EventArgs e)
         {

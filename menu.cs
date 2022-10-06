@@ -27,8 +27,10 @@ namespace sqlite
             Form1 form1 = new Form1();
             form1.Show();
             this.Hide();
-            MainHex mainHex = new MainHex();
-            mainHex.Show();
+            //MainHex mainHex = new MainHex();
+            //mainHex.Show();
+            Options options = new Options();
+            options.Show();
 
         }
 

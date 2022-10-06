@@ -27,7 +27,8 @@ namespace sqlite
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<HexModel>($"SELECT * FROM Hex where Number = '{column},{row}'" , new DynamicParameters());
+                string sql = $"SELECT * FROM Hex where Number = '{column},{row}'";
+                var output = cnn.Query<HexModel>(sql, new DynamicParameters());
                 return output.ToList();
             }
         }
@@ -50,6 +51,20 @@ namespace sqlite
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
                 cnn.Execute("Delete from Hex");
+            }
+        }
+        public static void SaveSettings(GameSettings settings)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                cnn.Execute("insert into gameSettings (Points, VictoryPoints) values (@Points, @VictoryPoints)", settings);
+            }
+        }
+        public static void SavePlayer(Player p)
+        {
+            using(IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                cnn.Execute("insert into PlayerArmy (PlayerName, ArmyName, NamedCharacters) values (@PlayerName, @ArmyName, @NamedCharacter)", p);
             }
         }
         private static string LoadConnectionString(string id = "Default")
